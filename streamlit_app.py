@@ -52,7 +52,7 @@ for key, url in urls.items():
     values = [is_healthy(x[key].status_code) if key in x and x[key] is not None else 0 for x in session_state.values[-100:]]
     uptime = sum(values) / len(values)
     st.markdown("@ %s" % url)
-    st.markdown("Availability SLO: %g" % uptime)
+    st.markdown("Availability: %2.2f" % uptime)
     st.area_chart(values)
 
 session_state.values.append({ k:Status(v) for k, v in status.items()})
