@@ -12,6 +12,11 @@ from st_rerun import rerun
 import requests
 from collections import namedtuple
 
+st.title("Uptime monitoring of Insight Fellow apps")
+
+st.write("""This is a simple dshboard that periodally polls the Insight Fellow's apps that we
+are currently maintaining at Streamlit.""")
+
 session_state = get(values=[])
 
 if len(session_state.values) == 0:
