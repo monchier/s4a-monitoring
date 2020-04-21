@@ -20,9 +20,13 @@ if len(session_state.values) == 0:
 Status = namedtuple("Status", ["status_code"])
 
 urls = {
-    "tyler": "https://insight2020a.streamlit.io/DeepNeuralAI/RL-DeepQLearning-Trading/app/",
-    "lalitha": "https://insight2020a.streamlit.io/starstorms9/shape/",
-    "invalid": "https://insight2020a.streamlit.io/starst",
+    "Tyler": "https://insight2020a.streamlit.io/DeepNeuralAI/RL-DeepQLearning-Trading/app/",
+    "Lalitha": "https://insight2020a.streamlit.io/starstorms9/shape/",
+    "Sidhartha": "https://insight2020a.streamlit.io/sidhartha-roy/2D-views-to-3D-Objects/Insight_MVP/streamlit/", 
+    "Aaron": "https://insight2020a.streamlit.io/DeepNeuralAI/RL-DeepQLearning-Trading/app/",
+    "Alireza": "https://insight2020a.streamlit.io/alistar/STTM-Insight/",
+    "Fang": "https://insight2020a.streamlit.io/FangFeng-077/Explainable_Lending_Decision",
+
 }
 
 status = {}
@@ -33,21 +37,20 @@ for key, url in urls.items():
     except:
         status[key] = -1
 
-st.write(status)
-
 def is_healthy(code):
     if code >= 200 and code < 400:
-        return True
-    return False
+        return 1
+    return 0
 
 for key, url in urls.items():
     st.markdown("## %s" % key)
     st.markdown("@ %s" % url)
-    st.line_chart([ is_healthy(x[key].status_code) if key in x and x[key] is not None else False for x in session_state.values[-100:]])
+    st.area_chart([ is_healthy(x[key].status_code) if key in x and x[key] is not None else 0 for x in session_state.values[-100:]])
 
 session_state.values.append({ k:Status(v) for k, v in status.items()})
 
-time.sleep(1)
+period = st.sidebar.slider("Polling period [s]", 5, 60, 5)
+time.sleep(period)
 
 rerun()
 
